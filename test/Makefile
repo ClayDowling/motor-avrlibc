@@ -2,7 +2,14 @@ CFLAGS=-I../mock -I../src -I../unity -std=c99
 LDFLAGS=-L../unity -lunity
 VPATH=../mock:../src
 
-test_controller: test_controller.o controller.o motor.o switch.o
+SRC=$(wildcard *.c)
+BASES=$(basename $(SRC))
+OBJS=$(addsuffix .o, $(BASES))
+
+UNIT_UNDER_TEST=controller.o
+MOCKS=motor.o switch.o
+
+test_controller: $(OBJS) $(UNIT_UNDER_TEST) $(MOCKS)
 	gcc $^ -o $@ $(LDFLAGS)
 
 clean:

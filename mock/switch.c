@@ -10,7 +10,7 @@ void switch_mock_init(void) {
 
 void switch_init(void) { switch_init_wascalled = true; }
 
-bool swith_init_called(void) { return switch_init_wascalled; }
+bool switch_init_called(void) { return switch_init_wascalled; }
 
 bool switch_state(void) { return switch_will_return; }
 
