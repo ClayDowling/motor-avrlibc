@@ -1,4 +1,4 @@
-#include "switch.h"
+#include "mock_switch.h"
 
 bool switch_will_return = false;
 bool switch_init_wascalled = false;

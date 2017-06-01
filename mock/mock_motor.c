@@ -1,4 +1,4 @@
-#include "motor.h"
+#include "mock_motor.h"
 
 enum MOTOR_IDX {
   speed_init,

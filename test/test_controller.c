@@ -1,8 +1,8 @@
 #include <stdbool.h>
 
 #include "controller.h"
-#include "motor.h"
-#include "switch.h"
+#include "mock_motor.h"
+#include "mock_switch.h"
 #include "unity.h"
 #include "unity_fixture.h"
 
