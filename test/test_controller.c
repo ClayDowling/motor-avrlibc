@@ -3,6 +3,7 @@
 
 #include "controller.h"
 #include "mock.h"
+#include "mock_switch.h"
 #include "motor.h"
 #include "switch.h"
 #include "unity.h"
@@ -73,4 +74,11 @@ TEST(Controller, loop_whenDirectionIsDown_subtractsOneFromPosition) {
   MOTOR_STATE.direction = DOWN;
   loop();
   TEST_ASSERT_EQUAL(9, MOTOR_STATE.position);
+}
+
+TEST(Controller, loop_whenSwitchIsTrue_setsDirectionToDown) {
+  MOTOR_STATE.direction = UP;
+  switch_state_will_return(true);
+  loop();
+  TEST_ASSERT_EQUAL(DOWN, MOTOR_STATE.direction);
 }

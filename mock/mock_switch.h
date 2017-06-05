@@ -1,5 +1,5 @@
-#ifndef _SWITCH_H_
-#define _SWITCH_H_
+#ifndef _MOCK_SWITCH_H_
+#define _MOCK_SWITCH_H_
 
 #include "../machine/switch.h"
 #include <stdbool.h>

@@ -32,6 +32,9 @@ void loop(void) {
   default:
     break;
   }
+  if (switch_state()) {
+    state_switch_on();
+  }
 }
 
 void state_just_started(void) {
