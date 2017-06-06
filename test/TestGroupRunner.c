@@ -13,6 +13,7 @@ TEST_GROUP_RUNNER(Controller) {
   RUN_TEST_CASE(Controller, loop_whenDirectionIsUp_addsOneToPosition);
   RUN_TEST_CASE(Controller, loop_whenDirectionIsDown_subtractsOneFromPosition);
   RUN_TEST_CASE(Controller, loop_whenSwitchIsTrue_setsDirectionToDown);
+  RUN_TEST_CASE(Controller, loop_whenPositionIsZero_setsDirectionToUp);
 }
 
 TEST_GROUP_RUNNER(Mock) {

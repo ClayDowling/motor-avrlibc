@@ -35,6 +35,9 @@ void loop(void) {
   if (switch_state()) {
     state_switch_on();
   }
+  if (0 == MOTOR_STATE.position) {
+    state_position_zero();
+  }
 }
 
 void state_just_started(void) {

@@ -13,6 +13,7 @@ TEST_GROUP(Controller);
 
 TEST_SETUP(Controller) {
   mock_init();
+  switch_state_will_return(false);
   MOTOR_STATE.direction = NODIRECTION;
   MOTOR_STATE.position = UNSET;
   MOTOR_STATE.max_position = UNSET;
@@ -77,8 +78,16 @@ TEST(Controller, loop_whenDirectionIsDown_subtractsOneFromPosition) {
 }
 
 TEST(Controller, loop_whenSwitchIsTrue_setsDirectionToDown) {
+  MOTOR_STATE.position = 9;
   MOTOR_STATE.direction = UP;
   switch_state_will_return(true);
   loop();
   TEST_ASSERT_EQUAL(DOWN, MOTOR_STATE.direction);
+}
+
+TEST(Controller, loop_whenPositionIsZero_setsDirectionToUp) {
+  MOTOR_STATE.direction = DOWN;
+  MOTOR_STATE.position = 1;
+  loop();
+  TEST_ASSERT_EQUAL(UP, MOTOR_STATE.direction);
 }
