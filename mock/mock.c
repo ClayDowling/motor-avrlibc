@@ -7,6 +7,8 @@
 #define CALL_MAX 200
 #define MOCK_NOT_CALLED -1
 
+int mock_call_index(void *target);
+
 bool mock_init_called = false;
 unsigned int CALL_IDX;
 void *called[CALL_MAX];
@@ -34,25 +36,14 @@ void mock_register_call_with(void *mock, int arg) {
 }
 
 bool mock_called_inorder(void *first, void *second) {
-  bool found1 = false;
-  bool found2 = false;
+  int first_idx;
+  int second_idx;
 
-  for (int i = 0; i < CALL_IDX; ++i) {
-    if (0 == called[i]) {
-      return false;
-    }
-    if (called[i] == first) {
-      found1 = true;
-    }
-    if (called[i] == second) {
-      found2 = true;
-    }
-    if (found2 && !found1) {
-      return false;
-    }
-    if (found1 && found2) {
-      return true;
-    }
+  first_idx = mock_call_index(first);
+  second_idx = mock_call_index(second);
+
+  if (second_idx > first_idx) {
+    return true;
   }
   return false;
 }
@@ -63,7 +54,7 @@ int mock_call_index(void *target) {
       return i;
     }
   }
-  return -1;
+  return MOCK_NOT_CALLED;
 }
 
 bool mock_was_called(void *target) {
