@@ -5,15 +5,17 @@ ARDUINO_EIGHT_ANALOG_INPUTS=$(ARDUINO_BASE)/variants/eightanaloginputs
 CC=avr-gcc
 CXX=avr-g++
 
-ARDUINO_CFLAGS=-Os -w -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10802 \
+ARDUINO_CFLAGS=-Os -w -std=gnu11 -ffunction-sections -fdata-sections -MMD -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10802 \
 	-DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR  \
 	-I$(ARDUINO_CORE) -I$(ARDUINO_EIGHT_ANALOG_INPUTS)
-CFLAGS=-I../machine $(ARDUINO_CFLAGS)
+CFLAGS=-g -I../machine $(ARDUINO_CFLAGS)
 
-ARDUINO_CXX_FLAGS=-Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD -flto -mmcu=atmega328p \
+ARDUINO_CXX_FLAGS=-Os -w -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD -mmcu=atmega328p \
 	-DF_CPU=16000000L -DARDUINO=10802 -DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR  \
 	 -I$(ARDUINO_CORE) -I$(ARDUINO_EIGHT_ANALOG_INPUTS)
-CXXFLAGS=$(ARDUINO_CXX_FLAGS)
+CXXFLAGS=-g $(ARDUINO_CXX_FLAGS)
+
+ASSEMBLY_FLAGS=-w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -lm
 
 USBPORT=/dev/ttyUSB0
 VPATH=../machine:$(ARDUINO_CORE)
@@ -28,8 +30,10 @@ CORE_CPP_NOTDIR=$(notdir $(CORE_CPP_SRC))
 CORE_CPP_BASE=$(basename $(CORE_CPP_NOTDIR))
 CORE_CPP=$(addsuffix .o, $(CORE_CPP_BASE))
 
-motorcontroller: controller.o motor.o switch.o libwiring.a
-	$(CC) -o $@ $^ $(LDFLAGS) -L. -lwiring
+APPLICATION_OBJECTS=controller.o motor.o switch.o
+
+motorcontroller: $(APPLICATION_OBJECTS) libwiring.a
+	$(CC) $(ASSEMBLY_FLAGS) $(APPLICATION_OBJECTS) -o $@ $(LDFLAGS) -L. -lwiring
 
 libwiring.a: $(CORE_C) $(CORE_CPP)
 	avr-gcc-ar rcs $@ $^
