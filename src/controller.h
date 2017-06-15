@@ -8,8 +8,8 @@ enum motor_direction_t { UP, DOWN, NODIRECTION };
 
 extern struct motor_state_t {
   enum motor_direction_t direction;
-  int position;
-  int max_position;
+  long position;
+  long max_position;
 } MOTOR_STATE;
 
 void setup(void);
