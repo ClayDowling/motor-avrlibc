@@ -1,6 +1,7 @@
 #include "controller.h"
 #include "motor.h"
 #include "switch.h"
+#include "timer.h"
 
 /**
  * States I care about:
@@ -22,28 +23,19 @@ void setup(void) {
 }
 
 void loop(void) {
-  switch (MOTOR_STATE.direction) {
-  case UP:
-    MOTOR_STATE.position++;
-    break;
-  case DOWN:
-    MOTOR_STATE.position--;
-    break;
-  default:
-    break;
-  }
   if (switch_state()) {
     state_switch_on();
   }
-  if (0 == MOTOR_STATE.position) {
+  if (DOWN == MOTOR_STATE.direction &&
+      (timer_value() - MOTOR_STATE.last_check > MOTOR_STATE.duration)) {
     state_position_zero();
   }
 }
 
 void state_just_started(void) {
   MOTOR_STATE.direction = UP;
-  MOTOR_STATE.position = 0;
-  MOTOR_STATE.max_position = UNSET;
+  MOTOR_STATE.last_check = timer_value();
+  MOTOR_STATE.duration = UNSET;
 }
 
 void state_position_zero(void) {
@@ -56,7 +48,7 @@ void state_switch_on(void) {
   motor_up_off();
   motor_down_on();
   MOTOR_STATE.direction = DOWN;
-  if (UNSET == MOTOR_STATE.max_position) {
-    MOTOR_STATE.max_position = MOTOR_STATE.position;
+  if (UNSET == MOTOR_STATE.duration) {
+    MOTOR_STATE.duration = timer_value() - MOTOR_STATE.last_check;
   }
 }

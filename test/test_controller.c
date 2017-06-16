@@ -4,6 +4,7 @@
 #include "controller.h"
 #include "mock.h"
 #include "mock_switch.h"
+#include "mock_timer.h"
 #include "motor.h"
 #include "switch.h"
 #include "unity.h"
@@ -15,8 +16,8 @@ TEST_SETUP(Controller) {
   mock_init();
   switch_state_will_return(false);
   MOTOR_STATE.direction = NODIRECTION;
-  MOTOR_STATE.position = UNSET;
-  MOTOR_STATE.max_position = UNSET;
+  MOTOR_STATE.last_check = UNSET;
+  MOTOR_STATE.duration = UNSET;
 }
 
 TEST_TEAR_DOWN(Controller) {}
@@ -31,9 +32,9 @@ TEST(Controller, setup_byDefault_callsMotorSwitchAndPinInit) {
 
 TEST(Controller, setup_byDefault_initializesMotorState) {
   setup();
-  TEST_ASSERT_EQUAL(0, MOTOR_STATE.position);
+  TEST_ASSERT_EQUAL(0, MOTOR_STATE.last_check);
   TEST_ASSERT_EQUAL(UP, MOTOR_STATE.direction);
-  TEST_ASSERT_EQUAL(UNSET, MOTOR_STATE.max_position);
+  TEST_ASSERT_EQUAL(UNSET, MOTOR_STATE.duration);
 }
 
 TEST(Controller, loop_byDefault_setsMotorSpeed) {
@@ -57,37 +58,36 @@ TEST(Controller, stateSwitchOn_whenMaxSet_turnsUpOffDownOnSetsDirectionDown) {
   TEST_ASSERT_EQUAL(DOWN, MOTOR_STATE.direction);
 }
 
-TEST(Controller, stateSwitchOn_whenMaxUnset_setsMaxToCurrentPosition) {
-  MOTOR_STATE.position = 7;
+TEST(Controller,
+     stateSwitchOn_whenDurationUnset_setsDurationToCurrentTimerMinusLastCheck) {
+  timer_value_will_return(1, 10);
+  MOTOR_STATE.last_check = 7;
   state_switch_on();
-  TEST_ASSERT_EQUAL(7, MOTOR_STATE.max_position);
-}
-
-TEST(Controller, loop_whenDirectionIsUp_addsOneToPosition) {
-  MOTOR_STATE.position = 0;
-  MOTOR_STATE.direction = UP;
-  loop();
-  TEST_ASSERT_EQUAL(1, MOTOR_STATE.position);
-}
-
-TEST(Controller, loop_whenDirectionIsDown_subtractsOneFromPosition) {
-  MOTOR_STATE.position = 10;
-  MOTOR_STATE.direction = DOWN;
-  loop();
-  TEST_ASSERT_EQUAL(9, MOTOR_STATE.position);
+  TEST_ASSERT_EQUAL(3, MOTOR_STATE.duration);
 }
 
 TEST(Controller, loop_whenSwitchIsTrue_setsDirectionToDown) {
-  MOTOR_STATE.position = 9;
+  MOTOR_STATE.last_check = 9;
   MOTOR_STATE.direction = UP;
   switch_state_will_return(true);
   loop();
   TEST_ASSERT_EQUAL(DOWN, MOTOR_STATE.direction);
 }
 
-TEST(Controller, loop_whenPositionIsZero_setsDirectionToUp) {
+TEST(Controller, setup_byDefault_setsLastCheckedToCurrentTimer) {
+  timer_value_will_return(1, 75);
+  setup();
+  TEST_ASSERT_EQUAL(75, MOTOR_STATE.last_check);
+}
+
+TEST(
+    Controller,
+    loop_whenDirectionIsDownAndDurationExceeded_turnsDownMotorOffUpMotorOnDirectionToUp) {
   MOTOR_STATE.direction = DOWN;
-  MOTOR_STATE.position = 1;
+  MOTOR_STATE.last_check = 10;
+  MOTOR_STATE.duration = 100;
+  timer_value_will_return(2, 120, 121); // State change will call timer again
   loop();
   TEST_ASSERT_EQUAL(UP, MOTOR_STATE.direction);
+  TEST_ASSERT_TRUE(mock_called_inorder(motor_down_off, motor_up_on));
 }
