@@ -22,4 +22,6 @@ TEST_GROUP_RUNNER(Mock) {
   RUN_TEST_CASE(Mock, mockCalledWith_byDefault_returnsValueOfCallParameter);
   RUN_TEST_CASE(
       Mock, timerValueWillReturn_givenOneValue_timerValueWillReturnOneValue);
+  RUN_TEST_CASE(
+      Mock, timerValueWillReturn_givenTwoValues_timerValueWillReturnTwoValues);
 }
