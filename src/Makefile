@@ -11,3 +11,8 @@ motorcontroller.hex: motorcontroller
 
 upload: motorcontroller.hex
 	avrdude -C/home/clay/arduino-1.8.2/hardware/tools/avr/etc/avrdude.conf -v -patmega328p -carduino -P$(USBPORT) -b57600 -D -Uflash:w:motorcontroller.hex:i
+
+clean:
+	rm -f *.o
+	rm -f motorcontroller
+	rm -f motorcontroller.hex
