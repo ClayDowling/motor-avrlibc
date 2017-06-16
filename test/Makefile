@@ -7,7 +7,7 @@ BASES=$(basename $(SRC))
 OBJS=$(addsuffix .o, $(BASES))
 
 UNIT_UNDER_TEST=controller.o
-MOCKS=mock_motor.o mock_switch.o mock.o
+MOCKS=mock_motor.o mock_switch.o mock_timer.o mock.o
 
 all: test_controller
 	./test_controller

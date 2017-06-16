@@ -20,4 +20,6 @@ TEST_GROUP_RUNNER(Mock) {
   RUN_TEST_CASE(Mock, mockCalled_whenAandB_returnsTrue);
   RUN_TEST_CASE(Mock, mockCalled_whenAButNotB_returnsFalse);
   RUN_TEST_CASE(Mock, mockCalledWith_byDefault_returnsValueOfCallParameter);
+  RUN_TEST_CASE(
+      Mock, timerValueWillReturn_givenOneValue_timerValueWillReturnOneValue);
 }
