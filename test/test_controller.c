@@ -68,3 +68,15 @@ TEST(
 
   TEST_ASSERT_FALSE(mock_was_called(state_position_zero));
 }
+
+TEST(
+    Controller,
+    loop_whenDirectionDownAndExpiredGreaterThanDuration_callsStatePositionZero) {
+  MOTOR_STATE.direction = DOWN;
+  MOTOR_STATE.duration = 500;
+  MOTOR_STATE.last_check = 10;
+
+  loop();
+
+  TEST_ASSERT_TRUE(mock_was_called(state_position_zero));
+}

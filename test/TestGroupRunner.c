@@ -12,6 +12,9 @@ TEST_GROUP_RUNNER(Controller) {
   RUN_TEST_CASE(
       Controller,
       loop_whenDirectionDownAndExpiredLessThanDuration_doNotCallStatePositionZero);
+  RUN_TEST_CASE(
+      Controller,
+      loop_whenDirectionDownAndExpiredGreaterThanDuration_callsStatePositionZero);
 }
 
 TEST_GROUP_RUNNER(Mock) {
