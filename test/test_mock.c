@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "mock.h"
+#include "mock_timer.h"
 #include "unity.h"
 #include "unity_fixture.h"
 
@@ -31,4 +32,17 @@ TEST(Mock, mockCalled_whenAButNotB_returnsFalse) {
 TEST(Mock, mockCalledWith_byDefault_returnsValueOfCallParameter) {
   FUNCTION_A(7);
   TEST_ASSERT_EQUAL(7, mock_was_called_with(FUNCTION_A));
+}
+
+TEST(Mock, timerValueWillReturn_givenOneValue_timerValueWillReturnOneValue) {
+  timer_value_will_return(1, 1);
+  TEST_ASSERT_EQUAL(1, timer_value());
+  TEST_ASSERT_EQUAL(0, timer_value());
+}
+
+TEST(Mock, timerValueWillReturn_givenTwoValues_timerValueWillReturnTwoValues) {
+  timer_value_will_return(2, 3, 7);
+  TEST_ASSERT_EQUAL(3, timer_value());
+  TEST_ASSERT_EQUAL(7, timer_value());
+  TEST_ASSERT_EQUAL(0, timer_value());
 }

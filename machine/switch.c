@@ -1,10 +1,8 @@
 #include "switch.h"
-#include <avr/io.h>
+#include <Arduino.h>
 
-/**
- * Input pin is PD2, Chip in 32, Arduino pin D2
- */
+#define PIN_SWITCH 12
 
-void switch_init(void) { DDRD &= ~(_BV(PD2)); }
+void switch_init(void) { pinMode(PIN_SWITCH, INPUT_PULLUP); }
 
-bool switch_state(void) { return PIND & _BV(PD2); }
+bool switch_state(void) { return digitalRead(PIN_SWITCH) == HIGH; }
