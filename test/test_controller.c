@@ -55,3 +55,16 @@ TEST(Controller, loop_whenSwitchStateIsTrue_callsstateSwitchOn) {
 
   TEST_ASSERT_TRUE(mock_was_called(state_switch_on));
 }
+
+TEST(
+    Controller,
+    loop_whenDirectionDownAndExpiredLessThanDuration_doNotCallStatePositionZero) {
+  MOTOR_STATE.direction = DOWN;
+  MOTOR_STATE.duration = 500;
+  MOTOR_STATE.last_check = 10;
+  timer_value_will_return(1, 75);
+
+  loop();
+
+  TEST_ASSERT_FALSE(mock_was_called(state_position_zero));
+}

@@ -9,6 +9,9 @@ TEST_GROUP_RUNNER(Controller) {
 
   // loop
   RUN_TEST_CASE(Controller, loop_whenSwitchStateIsTrue_callsstateSwitchOn);
+  RUN_TEST_CASE(
+      Controller,
+      loop_whenDirectionDownAndExpiredLessThanDuration_doNotCallStatePositionZero);
 }
 
 TEST_GROUP_RUNNER(Mock) {
