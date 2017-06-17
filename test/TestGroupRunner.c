@@ -5,31 +5,10 @@ TEST_GROUP_RUNNER(Controller) {
   RUN_TEST_CASE(Controller, setup_byDefault_callsMotorSwitchAndPinInit);
   RUN_TEST_CASE(Controller, setup_byDefault_initializesMotorState)
   RUN_TEST_CASE(Controller, setup_byDefault_setsLastCheckedToCurrentTimer);
+  RUN_TEST_CASE(Controller, set_byDefault_callsStatePositionZero);
 
   // loop
-  RUN_TEST_CASE(Controller, loop_whenSwitchIsTrue_setsDirectionToDown);
-  RUN_TEST_CASE(
-      Controller,
-      loop_whenDirectionIsDownAndDurationExceeded_turnsDownMotorOffUpMotorOnDirectionToUp);
-
-  // state_position_zero
-  RUN_TEST_CASE(Controller,
-                statePositionZero_byDefault_setsDirectionUpAndTurnsMotorsUp);
-  RUN_TEST_CASE(
-      Controller,
-      statePositionZero_byDefault_turnsOffDownMotorWaitsTurnsOnUpMotor);
-
-  // state_switch_on
-  RUN_TEST_CASE(Controller,
-                stateSwitchOn_whenMaxSet_turnsUpOffDownOnSetsDirectionDown);
-  RUN_TEST_CASE(
-      Controller,
-      stateSwitchOn_whenDurationUnset_setsDurationToCurrentTimerMinusLastCheck);
-  RUN_TEST_CASE(
-      Controller,
-      stateSwitchOn_whenDurationIsUnset_setsDurationToTimerValueAndLastCheckedToCurrentTimerValue);
-  RUN_TEST_CASE(Controller,
-                stateSwitchOn_byDefault_turnsUpMotorOffWaitsTurnsDownMotorOn);
+  RUN_TEST_CASE(Controller, loop_whenSwitchStateIsTrue_callsstateSwitchOn);
 }
 
 TEST_GROUP_RUNNER(Mock) {

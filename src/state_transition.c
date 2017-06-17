@@ -1,5 +1,7 @@
 #include "state_transition.h"
 #include "controller.h"
+#include "motor.h"
+#include "timer.h"
 
 void state_position_zero(void) {
   MOTOR_STATE.direction = UP;

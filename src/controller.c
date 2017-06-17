@@ -25,7 +25,7 @@ void setup(void) {
 }
 
 void loop(void) {
-  if (UP == MOTOR_STATE.direction && switch_state()) {
+  if (switch_state()) {
     state_switch_on();
   }
   if (DOWN == MOTOR_STATE.direction &&
