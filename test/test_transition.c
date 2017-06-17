@@ -25,6 +25,8 @@ TEST_SETUP(Transition) {
 
 TEST_TEAR_DOWN(Transition) {}
 
+// TESTS START HERE
+
 TEST(Transition, stateBottom_byDefault_setsDirectionUpAndTurnsMotorsUp) {
   state_bottom();
   TEST_ASSERT_EQUAL(UP, MOTOR_STATE.direction);
