@@ -109,3 +109,10 @@ TEST(Controller, stateSwitchOn_byDefault_turnsUpMotorOffWaitsTurnsDownMotorOn) {
   TEST_ASSERT_TRUE(
       mock_called_inorder(3, motor_up_off, timer_wait, motor_down_on));
 }
+
+TEST(Controller,
+     statePositionZero_byDefault_turnsOffDownMotorWaitsTurnsOnUpMotor) {
+  state_position_zero();
+  TEST_ASSERT_TRUE(
+      mock_called_inorder(3, motor_down_off, timer_wait, motor_up_on));
+}

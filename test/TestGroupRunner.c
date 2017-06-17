@@ -21,6 +21,9 @@ TEST_GROUP_RUNNER(Controller) {
       stateSwitchOn_whenDurationIsUnset_setsDurationToTimerValueAndLastCheckedToCurrentTimerValue);
   RUN_TEST_CASE(Controller,
                 stateSwitchOn_byDefault_turnsUpMotorOffWaitsTurnsDownMotorOn);
+  RUN_TEST_CASE(
+      Controller,
+      statePositionZero_byDefault_turnsOffDownMotorWaitsTurnsOnUpMotor);
 }
 
 TEST_GROUP_RUNNER(Mock) {
