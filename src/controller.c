@@ -15,7 +15,7 @@
 
 struct motor_state_t MOTOR_STATE;
 
-unsigned long expired() { return timer_value() - MOTOR_STATE.last_check; }
+unsigned long time_expired() { return timer_value() - MOTOR_STATE.last_check; }
 
 void setup(void) {
   motor_speed_init();
@@ -30,7 +30,8 @@ void loop(void) {
   if (switch_state()) {
     state_switch_on();
   }
-  if (DOWN == MOTOR_STATE.direction && (expired() > MOTOR_STATE.duration)) {
+  if (DOWN == MOTOR_STATE.direction &&
+      (time_expired() > MOTOR_STATE.duration)) {
     state_position_zero();
   }
 }
