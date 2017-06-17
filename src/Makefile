@@ -30,7 +30,7 @@ CORE_CPP_NOTDIR=$(notdir $(CORE_CPP_SRC))
 CORE_CPP_BASE=$(basename $(CORE_CPP_NOTDIR))
 CORE_CPP=$(addsuffix .o, $(CORE_CPP_BASE))
 
-APPLICATION_OBJECTS=controller.o motor.o switch.o timer.o
+APPLICATION_OBJECTS=controller.o state_transition.o motor.o switch.o timer.o
 
 motorcontroller: $(APPLICATION_OBJECTS) libwiring.a
 	$(CC) $(ASSEMBLY_FLAGS) $(APPLICATION_OBJECTS) -o $@ $(LDFLAGS) -L. -lwiring

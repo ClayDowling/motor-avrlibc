@@ -6,7 +6,7 @@ SRC=$(wildcard *.c)
 BASES=$(basename $(SRC))
 OBJS=$(addsuffix .o, $(BASES))
 
-UNIT_UNDER_TEST=controller.o
+UNIT_UNDER_TEST=controller.o state_transition.o
 MOCKS=mock_motor.o mock_switch.o mock_timer.o mock.o
 
 all: test_controller
