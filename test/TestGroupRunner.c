@@ -16,6 +16,11 @@ TEST_GROUP_RUNNER(Controller) {
   RUN_TEST_CASE(
       Controller,
       loop_whenDirectionIsDownAndDurationExceeded_turnsDownMotorOffUpMotorOnDirectionToUp);
+  RUN_TEST_CASE(
+      Controller,
+      stateSwitchOn_whenDurationIsUnset_setsDurationToTimerValueAndLastCheckedToCurrentTimerValue);
+  RUN_TEST_CASE(Controller,
+                stateSwitchOn_byDefault_turnsUpMotorOffWaitsTurnsDownMotorOn);
 }
 
 TEST_GROUP_RUNNER(Mock) {

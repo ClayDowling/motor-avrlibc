@@ -47,14 +47,15 @@ TEST(Controller, statePositionZero_byDefault_setsDirectionUpAndTurnsMotorsUp) {
   TEST_ASSERT_EQUAL(UP, MOTOR_STATE.direction);
   TEST_ASSERT_TRUE(mock_was_called(motor_down_off));
   TEST_ASSERT_TRUE(mock_was_called(motor_up_on));
-  TEST_ASSERT_TRUE(mock_called_inorder(motor_down_off, motor_up_on));
+  TEST_ASSERT_TRUE(mock_called_inorder(2, motor_down_off, motor_up_on));
+  TEST_ASSERT_EQUAL(MOTOR_SPEED, mock_was_called_with(motor_speed_set));
 }
 
 TEST(Controller, stateSwitchOn_whenMaxSet_turnsUpOffDownOnSetsDirectionDown) {
   state_switch_on();
   TEST_ASSERT_TRUE(mock_was_called(motor_up_off));
   TEST_ASSERT_TRUE(mock_was_called(motor_down_on));
-  TEST_ASSERT_TRUE(mock_called_inorder(motor_up_off, motor_down_on));
+  TEST_ASSERT_TRUE(mock_called_inorder(2, motor_up_off, motor_down_on));
   TEST_ASSERT_EQUAL(DOWN, MOTOR_STATE.direction);
 }
 
@@ -89,5 +90,22 @@ TEST(
   timer_value_will_return(2, 120, 121); // State change will call timer again
   loop();
   TEST_ASSERT_EQUAL(UP, MOTOR_STATE.direction);
-  TEST_ASSERT_TRUE(mock_called_inorder(motor_down_off, motor_up_on));
+  TEST_ASSERT_TRUE(mock_called_inorder(2, motor_down_off, motor_up_on));
+}
+
+TEST(
+    Controller,
+    stateSwitchOn_whenDurationIsUnset_setsDurationToTimerValueAndLastCheckedToCurrentTimerValue) {
+  timer_value_will_return(2, 120, 121);
+  MOTOR_STATE.last_check = 10;
+  MOTOR_STATE.duration = UNSET;
+  state_switch_on();
+  TEST_ASSERT_EQUAL(110, MOTOR_STATE.duration);
+  TEST_ASSERT_EQUAL(121, MOTOR_STATE.last_check);
+}
+
+TEST(Controller, stateSwitchOn_byDefault_turnsUpMotorOffWaitsTurnsDownMotorOn) {
+  state_switch_on();
+  TEST_ASSERT_TRUE(
+      mock_called_inorder(3, motor_up_off, timer_wait, motor_down_on));
 }

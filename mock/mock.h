@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 void mock_init(void);
-bool mock_called_inorder(void *, void *);
+bool mock_called_inorder(int number, ...);
 
 /* Used by mocks to handle mock behavior */
 void mock_register_call(void *);

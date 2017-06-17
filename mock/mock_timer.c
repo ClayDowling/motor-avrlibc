@@ -1,4 +1,5 @@
 #include "mock_timer.h"
+#include "mock.h"
 
 #define WILL_RETURN_MAX 20
 
@@ -21,4 +22,11 @@ void timer_value_will_return(int num_values, ...) {
   WILL_RETURN_IDX = 0;
 }
 
-unsigned long timer_value(void) { return will_return[WILL_RETURN_IDX++]; }
+unsigned long timer_value(void) {
+  mock_register_call(timer_value);
+  return will_return[WILL_RETURN_IDX++];
+}
+
+void timer_wait(unsigned int seconds) {
+  mock_register_call_with(timer_wait, seconds);
+}

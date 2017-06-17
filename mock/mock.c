@@ -1,5 +1,6 @@
 #include "mock.h"
 #include <limits.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -35,17 +36,25 @@ void mock_register_call_with(void *mock, int arg) {
   mock_register_call(mock);
 }
 
-bool mock_called_inorder(void *first, void *second) {
-  int first_idx;
-  int second_idx;
+bool mock_called_inorder(int num, ...) {
+  int previous = MOCK_NOT_CALLED;
+  int current;
+  va_list args;
+  void *function;
+  bool inorder = true;
 
-  first_idx = mock_call_index(first);
-  second_idx = mock_call_index(second);
-
-  if (second_idx > first_idx) {
-    return true;
+  va_start(args, num);
+  for (int i = 0; i < num; ++i) {
+    function = va_arg(args, void *);
+    current = mock_call_index(function);
+    if (current <= previous) {
+      inorder = false;
+      break;
+    }
   }
-  return false;
+
+  va_end(args);
+  return inorder;
 }
 
 int mock_call_index(void *target) {

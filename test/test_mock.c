@@ -20,13 +20,13 @@ TEST(Mock, mockCalled_whenAandB_returnsTrue) {
   FUNCTION_A(1);
   FUNCTION_B(2);
 
-  TEST_ASSERT_TRUE(mock_called_inorder(FUNCTION_A, FUNCTION_B));
+  TEST_ASSERT_TRUE(mock_called_inorder(2, FUNCTION_A, FUNCTION_B));
 }
 
 TEST(Mock, mockCalled_whenAButNotB_returnsFalse) {
   FUNCTION_A(1);
 
-  TEST_ASSERT_FALSE(mock_called_inorder(FUNCTION_A, FUNCTION_B));
+  TEST_ASSERT_FALSE(mock_called_inorder(2, FUNCTION_A, FUNCTION_B));
 }
 
 TEST(Mock, mockCalledWith_byDefault_returnsValueOfCallParameter) {
