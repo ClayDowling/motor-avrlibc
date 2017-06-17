@@ -6,6 +6,7 @@
 #include "mock_switch.h"
 #include "mock_timer.h"
 #include "motor.h"
+#include "state_transition.h"
 #include "switch.h"
 #include "unity.h"
 #include "unity_fixture.h"
@@ -24,13 +25,19 @@ TEST_SETUP(Transition) {
 
 TEST_TEAR_DOWN(Transition) {}
 
-TEST(Transition, statePositionZero_byDefault_setsDirectionUpAndTurnsMotorsUp) {
-  state_position_zero();
+TEST(Transition, stateBottom_byDefault_setsDirectionUpAndTurnsMotorsUp) {
+  state_bottom();
   TEST_ASSERT_EQUAL(UP, MOTOR_STATE.direction);
   TEST_ASSERT_TRUE(mock_was_called(motor_down_off));
   TEST_ASSERT_TRUE(mock_was_called(motor_up_on));
   TEST_ASSERT_TRUE(mock_called_inorder(2, motor_down_off, motor_up_on));
   TEST_ASSERT_EQUAL(MOTOR_SPEED, mock_was_called_with(motor_speed_set));
+}
+
+TEST(Transition, stateBottom_byDefault_turnsOffDownMotorWaitsTurnsOnUpMotor) {
+  state_bottom();
+  TEST_ASSERT_TRUE(
+      mock_called_inorder(3, motor_down_off, timer_wait, motor_up_on));
 }
 
 TEST(Transition,
@@ -65,11 +72,4 @@ TEST(Transition, stateSwitchOn_byDefault_turnsUpMotorOffWaitsTurnsDownMotorOn) {
   state_switch_on();
   TEST_ASSERT_TRUE(
       mock_called_inorder(3, motor_up_off, timer_wait, motor_down_on));
-}
-
-TEST(Transition,
-     statePositionZero_byDefault_turnsOffDownMotorWaitsTurnsOnUpMotor) {
-  state_position_zero();
-  TEST_ASSERT_TRUE(
-      mock_called_inorder(3, motor_down_off, timer_wait, motor_up_on));
 }

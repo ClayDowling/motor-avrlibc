@@ -2,12 +2,11 @@
 #include "unity_fixture.h"
 
 TEST_GROUP_RUNNER(Transition) {
-  // state_position_zero
+  // state_bottom
   RUN_TEST_CASE(Transition,
-                statePositionZero_byDefault_setsDirectionUpAndTurnsMotorsUp);
-  RUN_TEST_CASE(
-      Transition,
-      statePositionZero_byDefault_turnsOffDownMotorWaitsTurnsOnUpMotor);
+                stateBottom_byDefault_setsDirectionUpAndTurnsMotorsUp);
+  RUN_TEST_CASE(Transition,
+                stateBottom_byDefault_turnsOffDownMotorWaitsTurnsOnUpMotor);
 
   // state_switch_on
   RUN_TEST_CASE(

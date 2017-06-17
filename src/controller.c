@@ -23,7 +23,7 @@ void setup(void) {
   motor_down_init();
   switch_init();
   state_just_started();
-  state_position_zero();
+  state_bottom();
 }
 
 void loop(void) {
@@ -32,7 +32,7 @@ void loop(void) {
   }
   if (DOWN == MOTOR_STATE.direction &&
       (time_expired() > MOTOR_STATE.duration)) {
-    state_position_zero();
+    state_bottom();
   }
 }
 

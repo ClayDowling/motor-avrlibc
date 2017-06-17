@@ -16,7 +16,7 @@ void setup(void);
 void loop(void);
 
 void state_just_started(void);
-void state_position_zero(void);
+void state_bottom(void);
 void state_switch_on(void);
 
 #endif

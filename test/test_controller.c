@@ -43,9 +43,9 @@ TEST(Controller, setup_byDefault_setsLastCheckedToCurrentTimer) {
   TEST_ASSERT_EQUAL(75, MOTOR_STATE.last_check);
 }
 
-TEST(Controller, set_byDefault_callsStatePositionZero) {
+TEST(Controller, set_byDefault_callsStateBottom) {
   setup();
-  TEST_ASSERT_TRUE(mock_was_called(state_position_zero));
+  TEST_ASSERT_TRUE(mock_was_called(state_bottom));
 }
 
 TEST(Controller, loop_whenSwitchStateIsTrue_callsstateSwitchOn) {
@@ -56,9 +56,8 @@ TEST(Controller, loop_whenSwitchStateIsTrue_callsstateSwitchOn) {
   TEST_ASSERT_TRUE(mock_was_called(state_switch_on));
 }
 
-TEST(
-    Controller,
-    loop_whenDirectionDownAndExpiredLessThanDuration_doNotCallStatePositionZero) {
+TEST(Controller,
+     loop_whenDirectionDownAndExpiredLessThanDuration_doNotCallStateBottom) {
   MOTOR_STATE.direction = DOWN;
   MOTOR_STATE.duration = 500;
   MOTOR_STATE.last_check = 10;
@@ -66,17 +65,16 @@ TEST(
 
   loop();
 
-  TEST_ASSERT_FALSE(mock_was_called(state_position_zero));
+  TEST_ASSERT_FALSE(mock_was_called(state_bottom));
 }
 
-TEST(
-    Controller,
-    loop_whenDirectionDownAndExpiredGreaterThanDuration_callsStatePositionZero) {
+TEST(Controller,
+     loop_whenDirectionDownAndExpiredGreaterThanDuration_callsStateBottom) {
   MOTOR_STATE.direction = DOWN;
   MOTOR_STATE.duration = 500;
   MOTOR_STATE.last_check = 10;
 
   loop();
 
-  TEST_ASSERT_TRUE(mock_was_called(state_position_zero));
+  TEST_ASSERT_TRUE(mock_was_called(state_bottom));
 }

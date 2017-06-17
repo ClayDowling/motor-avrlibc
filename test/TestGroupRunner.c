@@ -5,16 +5,16 @@ TEST_GROUP_RUNNER(Controller) {
   RUN_TEST_CASE(Controller, setup_byDefault_callsMotorSwitchAndPinInit);
   RUN_TEST_CASE(Controller, setup_byDefault_initializesMotorState)
   RUN_TEST_CASE(Controller, setup_byDefault_setsLastCheckedToCurrentTimer);
-  RUN_TEST_CASE(Controller, set_byDefault_callsStatePositionZero);
+  RUN_TEST_CASE(Controller, set_byDefault_callsStateBottom);
 
   // loop
   RUN_TEST_CASE(Controller, loop_whenSwitchStateIsTrue_callsstateSwitchOn);
   RUN_TEST_CASE(
       Controller,
-      loop_whenDirectionDownAndExpiredLessThanDuration_doNotCallStatePositionZero);
+      loop_whenDirectionDownAndExpiredLessThanDuration_doNotCallStateBottom);
   RUN_TEST_CASE(
       Controller,
-      loop_whenDirectionDownAndExpiredGreaterThanDuration_callsStatePositionZero);
+      loop_whenDirectionDownAndExpiredGreaterThanDuration_callsStateBottom);
 }
 
 TEST_GROUP_RUNNER(Mock) {

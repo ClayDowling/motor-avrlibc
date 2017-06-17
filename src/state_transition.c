@@ -3,7 +3,7 @@
 #include "motor.h"
 #include "timer.h"
 
-void state_position_zero(void) {
+void state_bottom(void) {
   MOTOR_STATE.direction = UP;
   motor_down_off();
   timer_wait(1);
