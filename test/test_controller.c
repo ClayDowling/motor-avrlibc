@@ -74,6 +74,8 @@ TEST(Controller,
   MOTOR_STATE.duration = 500;
   MOTOR_STATE.last_check = 10;
 
+  timer_value_will_return(1, 600);
+
   loop();
 
   TEST_ASSERT_TRUE(mock_was_called(state_bottom));
