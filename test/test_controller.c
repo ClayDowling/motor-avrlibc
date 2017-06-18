@@ -43,7 +43,7 @@ TEST(Controller, setup_byDefault_setsLastCheckedToCurrentTimer) {
   TEST_ASSERT_EQUAL(75, MOTOR_STATE.last_check);
 }
 
-TEST(Controller, set_byDefault_callsStateBottom) {
+TEST(Controller, setup_byDefault_callsStateBottom) {
   setup();
   TEST_ASSERT_TRUE(mock_was_called(state_bottom));
 }
