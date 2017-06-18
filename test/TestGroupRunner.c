@@ -5,7 +5,7 @@ TEST_GROUP_RUNNER(Controller) {
   RUN_TEST_CASE(Controller, setup_byDefault_callsMotorSwitchAndPinInit);
   RUN_TEST_CASE(Controller, setup_byDefault_initializesMotorState)
   RUN_TEST_CASE(Controller, setup_byDefault_setsLastCheckedToCurrentTimer);
-  RUN_TEST_CASE(Controller, set_byDefault_callsStateBottom);
+  RUN_TEST_CASE(Controller, setup_byDefault_callsStateBottom);
 
   // loop
   RUN_TEST_CASE(Controller, loop_whenSwitchStateIsTrue_callsstateSwitchOn);

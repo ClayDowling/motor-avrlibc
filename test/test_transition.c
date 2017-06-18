@@ -51,14 +51,6 @@ TEST(Transition,
   TEST_ASSERT_EQUAL(DOWN, MOTOR_STATE.direction);
 }
 
-TEST(Transition,
-     stateSwitchOn_whenDurationUnset_setsDurationToCurrentTimerMinusLastCheck) {
-  timer_value_will_return(1, 10);
-  MOTOR_STATE.last_check = 7;
-  state_switch_on();
-  TEST_ASSERT_EQUAL(3, MOTOR_STATE.duration);
-}
-
 TEST(
     Transition,
     stateSwitchOn_whenDurationIsUnset_setsDurationToTimerValueAndLastCheckedToCurrentTimerValue) {
