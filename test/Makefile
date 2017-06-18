@@ -1,4 +1,4 @@
-CFLAGS=-I../mock -I../src -I../unity -I../machine -std=c99 -g
+CFLAGS=-I../mock -I../src -I../unity -I../machine -std=c99 -g -Werror
 LDFLAGS=-L../unity -lunity
 VPATH=../mock:../src
 
