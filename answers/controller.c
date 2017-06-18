@@ -4,17 +4,12 @@
 #include "switch.h"
 #include "timer.h"
 
-/**
- * States I care about:
- *
- * 1. Just started
- * 2. Switch is on and max_position is unset.
- * 3. Switch is on and max_position is set.
- * 4. Position is at zero.
- */
-
 struct motor_state_t MOTOR_STATE;
 
+/**
+ * Measures the time expired (in milliseconds) since the last time we had a
+ * significant time event (i.e. MOTOR_STATE.last_check)
+ */
 unsigned long time_expired() { return timer_value() - MOTOR_STATE.last_check; }
 
 void setup(void) {
