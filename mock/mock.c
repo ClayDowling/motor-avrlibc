@@ -51,6 +51,7 @@ bool mock_called_inorder(int num, ...) {
       inorder = false;
       break;
     }
+    previous = current;
   }
 
   va_end(args);

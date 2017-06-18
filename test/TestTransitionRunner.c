@@ -17,4 +17,8 @@ TEST_GROUP_RUNNER(Transition) {
       stateSwitchOn_whenDurationIsUnset_setsDurationToTimerValueAndLastCheckedToCurrentTimerValue);
   RUN_TEST_CASE(Transition,
                 stateSwitchOn_byDefault_turnsUpMotorOffWaitsTurnsDownMotorOn);
+  RUN_TEST_CASE(Transition,
+                stateSwitchOn_whenDurationUnset_callsGetsTimeBeforeWaiting);
+  RUN_TEST_CASE(Transition,
+                stateSwitchOn_whenDurationSet_callsWaitBeforeGettingTime);
 }

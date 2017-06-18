@@ -67,3 +67,20 @@ TEST(Transition, stateSwitchOn_byDefault_turnsUpMotorOffWaitsTurnsDownMotorOn) {
   TEST_ASSERT_TRUE(
       mock_called_inorder(3, motor_up_off, timer_wait, motor_down_on));
 }
+
+TEST(Transition, stateSwitchOn_whenDurationUnset_callsGetsTimeBeforeWaiting) {
+  MOTOR_STATE.duration = UNSET;
+  MOTOR_STATE.last_check = 10;
+  timer_value_will_return(1, 120);
+  state_switch_on();
+  TEST_ASSERT_TRUE(mock_called_inorder(2, timer_value, timer_wait));
+}
+
+TEST(Transition, stateSwitchOn_whenDurationSet_callsWaitBeforeGettingTime) {
+  MOTOR_STATE.duration = 20;
+  timer_value_will_return(1, 75);
+
+  state_switch_on();
+
+  TEST_ASSERT_TRUE(mock_called_inorder(2, timer_wait, timer_value));
+}
