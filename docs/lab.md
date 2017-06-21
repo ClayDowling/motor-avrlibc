@@ -11,11 +11,10 @@ known as an Arduino Nano.
 
 ## Requirements
 
-  - Hardware - See circuit diagram.  
   - C tool suite for your platform. On OSX this will mean installing
     X-code AVR toolchain.  This includes avr-gcc, avr-g++, avr-gnu-ar
   - The Arduino software suite.  You can download it from
-    http://www.arduino.cc 
+    http://www.arduino.cc
   - A text editor.  Atom or VS-Code are recommended, but any code
     editor which you are comfortable with will work.
 
@@ -53,9 +52,9 @@ This archive contains the full suite of tests which I wrote to test
 drive this application.  When all of the tests pass, you will have a
 minimally working version of the program.
 
-The file `test/test_controller.c` contains all of the tests which are
-used to ensure that the program works as desired.  The tests have a
-consistent format:
+The files `test/test_controller.c` and `test/test_state_transition.c`
+contains all of the tests which are used to ensure that the program works as
+desired.  The tests have a consistent format:
 
     TEST(Controller, setup_byDefault_initializesMotorState)
 
