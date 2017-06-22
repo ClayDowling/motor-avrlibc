@@ -1,7 +1,7 @@
 #ifndef _CONTROLLER_H_
 #define _CONTROLLER_H_
 
-#define MOTOR_SPEED 120
+#define MOTOR_SPEED 180
 #define UNSET -1
 
 enum motor_direction_t { UP, DOWN, NODIRECTION };

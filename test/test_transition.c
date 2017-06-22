@@ -42,6 +42,13 @@ TEST(Transition, stateBottom_byDefault_turnsOffDownMotorWaitsTurnsOnUpMotor) {
       mock_called_inorder(3, motor_down_off, timer_wait, motor_up_on));
 }
 
+TEST(Transition, stateBottom_byDefault_setsLastCheckedAfterTimerWait) {
+  timer_value_will_return(1, 57);
+  state_bottom();
+  TEST_ASSERT_TRUE(mock_called_inorder(2, timer_wait, timer_value));
+  TEST_ASSERT_EQUAL(57, MOTOR_STATE.last_check);
+}
+
 TEST(Transition,
      stateSwitchOn_whenDurationSet_turnsUpOffDownOnSetsDirectionDown) {
   state_switch_on();
@@ -54,11 +61,10 @@ TEST(Transition,
 TEST(
     Transition,
     stateSwitchOn_whenDurationIsUnset_setsDurationToTimerValueAndLastCheckedToCurrentTimerValue) {
-  timer_value_will_return(2, 120, 121);
+  timer_value_will_return(1, 121);
   MOTOR_STATE.last_check = 10;
   MOTOR_STATE.duration = UNSET;
   state_switch_on();
-  TEST_ASSERT_EQUAL(110, MOTOR_STATE.duration);
   TEST_ASSERT_EQUAL(121, MOTOR_STATE.last_check);
 }
 
@@ -66,14 +72,6 @@ TEST(Transition, stateSwitchOn_byDefault_turnsUpMotorOffWaitsTurnsDownMotorOn) {
   state_switch_on();
   TEST_ASSERT_TRUE(
       mock_called_inorder(3, motor_up_off, timer_wait, motor_down_on));
-}
-
-TEST(Transition, stateSwitchOn_whenDurationUnset_callsGetsTimeBeforeWaiting) {
-  MOTOR_STATE.duration = UNSET;
-  MOTOR_STATE.last_check = 10;
-  timer_value_will_return(1, 120);
-  state_switch_on();
-  TEST_ASSERT_TRUE(mock_called_inorder(2, timer_value, timer_wait));
 }
 
 TEST(Transition, stateSwitchOn_whenDurationSet_callsWaitBeforeGettingTime) {
