@@ -16,17 +16,15 @@ void setup(void) {
   motor_speed_init();
   motor_up_init();
   motor_down_init();
-  switch_init();
   state_just_started();
   state_bottom();
 }
 
 void loop(void) {
-  if (switch_state()) {
+  if (MOTOR_STATE.direction == UP && time_expired() > MOTOR_DURATION) {
     state_switch_on();
   }
-  if (DOWN == MOTOR_STATE.direction &&
-      (time_expired() > MOTOR_STATE.duration)) {
+  if (DOWN == MOTOR_STATE.direction && time_expired() > MOTOR_DURATION) {
     state_bottom();
   }
 }
@@ -34,5 +32,4 @@ void loop(void) {
 void state_just_started(void) {
   MOTOR_STATE.direction = UP;
   MOTOR_STATE.last_check = timer_value();
-  MOTOR_STATE.duration = UNSET;
 }
