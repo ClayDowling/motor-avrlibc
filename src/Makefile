@@ -4,6 +4,9 @@ ARDUINO_EIGHT_ANALOG_INPUTS=$(ARDUINO_BASE)/variants/eightanaloginputs
 
 CC=/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/avr-gcc
 CXX=/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/avr-g++
+LINKER=/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/avr-gcc-ar
+OBJCOPY=/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/avr-objcopy
+AVRDUDE=/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/avrdude
 
 ARDUINO_CFLAGS=-Os -w -std=gnu11 -ffunction-sections -fdata-sections -MMD -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10802 \
 	-DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR  \
@@ -17,7 +20,7 @@ CXXFLAGS=-g $(ARDUINO_CXX_FLAGS)
 
 ASSEMBLY_FLAGS=-w -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections -mmcu=atmega328p -lm
 
-USBPORT=/dev/ttyUSB0
+USBPORT=/dev/cu.usbmodem1421
 VPATH=../machine:$(ARDUINO_CORE)
 
 CORE_C_SRC=$(wildcard $(ARDUINO_CORE)/*.c)
@@ -36,13 +39,13 @@ motorcontroller: $(APPLICATION_OBJECTS) libwiring.a
 	$(CC) $(ASSEMBLY_FLAGS) $(APPLICATION_OBJECTS) -o $@ $(LDFLAGS) -L. -lwiring
 
 libwiring.a: $(CORE_C) $(CORE_CPP)
-	avr-gcc-ar rcs $@ $^
+	$(LINKER) rcs $@ $^
 
 motorcontroller.hex: motorcontroller
-	avr-objcopy -O ihex -R .eeprom $^ $@
+	$(OBJCOPY) -O ihex -R .eeprom $^ $@
 
 upload: motorcontroller.hex
-	avrdude -C/home/clay/arduino-1.8.2/hardware/tools/avr/etc/avrdude.conf -v -patmega328p -carduino -P$(USBPORT) -b57600 -D -Uflash:w:motorcontroller.hex:i
+	$(AVRDUDE) -C/Applications/Arduino.app/Contents/Java/hardware/tools/avr/etc/avrdude.conf -v -patmega328p -carduino -P$(USBPORT) -b57600 -D -Uflash:w:motorcontroller.hex:i
 
 clean:
 	rm -f motorcontroller
