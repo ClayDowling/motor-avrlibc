@@ -2,6 +2,7 @@
 #define _CONTROLLER_H_
 
 #define MOTOR_SPEED 180
+#define MOTOR_DURATION 10000
 #define UNSET -1
 
 enum motor_direction_t { UP, DOWN, NODIRECTION };
@@ -9,7 +10,6 @@ enum motor_direction_t { UP, DOWN, NODIRECTION };
 extern struct motor_state_t {
   enum motor_direction_t direction;
   unsigned long last_check;
-  unsigned long duration;
 } MOTOR_STATE;
 
 void setup(void);

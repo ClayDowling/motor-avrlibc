@@ -17,7 +17,6 @@ TEST_SETUP(Controller) {
   switch_state_will_return(false);
   MOTOR_STATE.direction = NODIRECTION;
   MOTOR_STATE.last_check = UNSET;
-  MOTOR_STATE.duration = UNSET;
 }
 
 TEST_TEAR_DOWN(Controller) {}
@@ -27,14 +26,12 @@ TEST(Controller, setup_byDefault_callsMotorSwitchAndPinInit) {
   TEST_ASSERT_TRUE(mock_was_called(motor_speed_init));
   TEST_ASSERT_TRUE(mock_was_called(motor_up_init));
   TEST_ASSERT_TRUE(mock_was_called(motor_down_init));
-  TEST_ASSERT_TRUE(mock_was_called(switch_init));
 }
 
 TEST(Controller, setup_byDefault_initializesMotorState) {
   setup();
   TEST_ASSERT_EQUAL(0, MOTOR_STATE.last_check);
   TEST_ASSERT_EQUAL(UP, MOTOR_STATE.direction);
-  TEST_ASSERT_EQUAL(UNSET, MOTOR_STATE.duration);
 }
 
 TEST(Controller, setup_byDefault_setsLastCheckedToCurrentTimer) {
@@ -48,18 +45,9 @@ TEST(Controller, setup_byDefault_callsStateBottom) {
   TEST_ASSERT_TRUE(mock_was_called(state_bottom));
 }
 
-TEST(Controller, loop_whenSwitchStateIsTrue_callsstateSwitchOn) {
-  switch_state_will_return(true);
-
-  loop();
-
-  TEST_ASSERT_TRUE(mock_was_called(state_switch_on));
-}
-
 TEST(Controller,
      loop_whenDirectionDownAndExpiredLessThanDuration_doNotCallStateBottom) {
   MOTOR_STATE.direction = DOWN;
-  MOTOR_STATE.duration = 500;
   MOTOR_STATE.last_check = 10;
   timer_value_will_return(1, 75);
 
@@ -71,12 +59,35 @@ TEST(Controller,
 TEST(Controller,
      loop_whenDirectionDownAndExpiredGreaterThanDuration_callsStateBottom) {
   MOTOR_STATE.direction = DOWN;
-  MOTOR_STATE.duration = 500;
   MOTOR_STATE.last_check = 10;
 
-  timer_value_will_return(1, 600);
+  timer_value_will_return(1, MOTOR_DURATION + 11);
 
   loop();
 
   TEST_ASSERT_TRUE(mock_was_called(state_bottom));
+}
+
+TEST(Controller,
+     loop_whenDirectionIsUpAndExpiredGreaterThanDuration_callsStateSwitchOn) {
+  MOTOR_STATE.direction = UP;
+  MOTOR_STATE.last_check = 7;
+
+  timer_value_will_return(1, MOTOR_DURATION + 11);
+
+  loop();
+
+  TEST_ASSERT_TRUE(mock_was_called(state_switch_on));
+}
+
+TEST(
+    Controller,
+    loop_whenDirectionIsUpAndExpiredLessThanDuration_stateSwitchOnIsNotCalled) {
+  MOTOR_STATE.direction = UP;
+  MOTOR_STATE.last_check = 5;
+  timer_value_will_return(1, MOTOR_DURATION);
+
+  loop();
+
+  TEST_ASSERT_FALSE(mock_was_called(state_switch_on));
 }

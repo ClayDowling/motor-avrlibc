@@ -8,13 +8,18 @@ TEST_GROUP_RUNNER(Controller) {
   RUN_TEST_CASE(Controller, setup_byDefault_callsStateBottom);
 
   // loop
-  RUN_TEST_CASE(Controller, loop_whenSwitchStateIsTrue_callsstateSwitchOn);
   RUN_TEST_CASE(
       Controller,
       loop_whenDirectionDownAndExpiredLessThanDuration_doNotCallStateBottom);
   RUN_TEST_CASE(
       Controller,
       loop_whenDirectionDownAndExpiredGreaterThanDuration_callsStateBottom);
+  RUN_TEST_CASE(
+      Controller,
+      loop_whenDirectionIsUpAndExpiredGreaterThanDuration_callsStateSwitchOn);
+  RUN_TEST_CASE(
+      Controller,
+      loop_whenDirectionIsUpAndExpiredLessThanDuration_stateSwitchOnIsNotCalled);
 }
 
 TEST_GROUP_RUNNER(Mock) {
