@@ -20,7 +20,6 @@ TEST_SETUP(Transition) {
   switch_state_will_return(false);
   MOTOR_STATE.direction = NODIRECTION;
   MOTOR_STATE.last_check = UNSET;
-  MOTOR_STATE.duration = UNSET;
 }
 
 TEST_TEAR_DOWN(Transition) {}
@@ -63,7 +62,6 @@ TEST(
     stateSwitchOn_whenDurationIsUnset_setsDurationToTimerValueAndLastCheckedToCurrentTimerValue) {
   timer_value_will_return(1, 121);
   MOTOR_STATE.last_check = 10;
-  MOTOR_STATE.duration = UNSET;
   state_switch_on();
   TEST_ASSERT_EQUAL(121, MOTOR_STATE.last_check);
 }
@@ -75,7 +73,6 @@ TEST(Transition, stateSwitchOn_byDefault_turnsUpMotorOffWaitsTurnsDownMotorOn) {
 }
 
 TEST(Transition, stateSwitchOn_whenDurationSet_callsWaitBeforeGettingTime) {
-  MOTOR_STATE.duration = 20;
   timer_value_will_return(1, 75);
 
   state_switch_on();
