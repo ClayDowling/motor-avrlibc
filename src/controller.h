@@ -9,7 +9,7 @@ enum motor_direction_t { UP, DOWN, NODIRECTION };
 
 extern struct motor_state_t {
   enum motor_direction_t direction;
-  unsigned long last_check;
+  unsigned long last_state_change;
 } MOTOR_STATE;
 
 void setup(void);

@@ -12,7 +12,7 @@ TRANSITION_MOCKS=mock_motor.o mock_switch.o mock_timer.o mock.o
 
 MOCKS=mock_motor.o mock_switch.o mock_timer.o mock.o
 
-all: test_controller test_transition
+all: test_controller test_transition 
 	./test_controller
 	./test_transition
 

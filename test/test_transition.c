@@ -19,7 +19,7 @@ TEST_SETUP(Transition) {
   mock_init();
   switch_state_will_return(false);
   MOTOR_STATE.direction = NODIRECTION;
-  MOTOR_STATE.last_check = UNSET;
+  MOTOR_STATE.last_state_change = UNSET;
 }
 
 TEST_TEAR_DOWN(Transition) {}
@@ -45,7 +45,7 @@ TEST(Transition, stateBottom_byDefault_setsLastCheckedAfterTimerWait) {
   timer_value_will_return(1, 57);
   state_bottom();
   TEST_ASSERT_TRUE(mock_called_inorder(2, timer_wait, timer_value));
-  TEST_ASSERT_EQUAL(57, MOTOR_STATE.last_check);
+  TEST_ASSERT_EQUAL(57, MOTOR_STATE.last_state_change);
 }
 
 TEST(Transition,
@@ -61,9 +61,9 @@ TEST(
     Transition,
     stateSwitchOn_whenDurationIsUnset_setsDurationToTimerValueAndLastCheckedToCurrentTimerValue) {
   timer_value_will_return(1, 121);
-  MOTOR_STATE.last_check = 10;
+  MOTOR_STATE.last_state_change = 10;
   state_switch_on();
-  TEST_ASSERT_EQUAL(121, MOTOR_STATE.last_check);
+  TEST_ASSERT_EQUAL(121, MOTOR_STATE.last_state_change);
 }
 
 TEST(Transition, stateSwitchOn_byDefault_turnsUpMotorOffWaitsTurnsDownMotorOn) {

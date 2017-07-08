@@ -20,7 +20,7 @@ struct motor_state_t MOTOR_STATE;
  * Measures the time expired (in milliseconds) since the last time we had a
  * significant time event (i.e. MOTOR_STATE.last_check)
  */
-unsigned long time_expired() { return timer_value() - MOTOR_STATE.last_check; }
+unsigned long elapsed_time() { return timer_value() - MOTOR_STATE.last_state_change; }
 
 void setup(void) {
   // Left as an exercise for the reader.
