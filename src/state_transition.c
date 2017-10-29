@@ -10,6 +10,7 @@ void state_bottom(void) {
   timer_wait((random() % 117) + 3);
   motor_up_on();
   MOTOR_STATE.last_check = timer_value();
+
   motor_speed_set(MOTOR_SPEED);
 }
 

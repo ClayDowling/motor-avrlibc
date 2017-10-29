@@ -10,16 +10,16 @@ TEST_GROUP_RUNNER(Controller) {
   // loop
   RUN_TEST_CASE(
       Controller,
-      loop_whenDirectionDownAndExpiredLessThanDuration_doNotCallStateBottom);
+      loop_whenDirectionDownAndElapsedTimeLessThanDuration_doNotCallStateBottom);
   RUN_TEST_CASE(
       Controller,
-      loop_whenDirectionDownAndExpiredGreaterThanDuration_callsStateBottom);
+      loop_whenDirectionDownAndElapsedTimeGreaterThanDuration_callsStateBottom);
   RUN_TEST_CASE(
       Controller,
-      loop_whenDirectionIsUpAndExpiredGreaterThanDuration_callsStateSwitchOn);
+      loop_whenDirectionIsUpAndElapsedTimeGreaterThanMotorDuration_callsStateSwitchOn);
   RUN_TEST_CASE(
       Controller,
-      loop_whenDirectionIsUpAndExpiredLessThanDuration_stateSwitchOnIsNotCalled);
+      loop_whenDirectionIsUpAndElapsedTimeLessThanDuration_stateSwitchOnIsNotCalled);
 }
 
 TEST_GROUP_RUNNER(Mock) {

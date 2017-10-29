@@ -8,9 +8,9 @@ struct motor_state_t MOTOR_STATE;
 
 /**
  * Measures the time expired (in milliseconds) since the last time we had a
- * significant time event (i.e. MOTOR_STATE.last_check)
+ * significant time event (i.e. MOTOR_STATE.last_state_change)
  */
-unsigned long time_expired() { return timer_value() - MOTOR_STATE.last_check; }
+unsigned long elapsed_time() { return timer_value() - MOTOR_STATE.last_state_change; }
 
 void setup(void) {
   motor_speed_init();
@@ -21,15 +21,15 @@ void setup(void) {
 }
 
 void loop(void) {
-  if (MOTOR_STATE.direction == UP && time_expired() > MOTOR_DURATION) {
+  if (UP == MOTOR_STATE.direction && elapsed_time() > MOTOR_DURATION) {
     state_switch_on();
   }
-  if (DOWN == MOTOR_STATE.direction && time_expired() > MOTOR_DURATION) {
+  if (DOWN == MOTOR_STATE.direction && elapsed_time() > MOTOR_DURATION) {
     state_bottom();
   }
 }
 
 void state_just_started(void) {
   MOTOR_STATE.direction = UP;
-  MOTOR_STATE.last_check = timer_value();
+  MOTOR_STATE.last_state_change = timer_value();
 }

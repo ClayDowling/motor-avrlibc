@@ -16,7 +16,7 @@ TEST_SETUP(Controller) {
   mock_init();
   switch_state_will_return(false);
   MOTOR_STATE.direction = NODIRECTION;
-  MOTOR_STATE.last_check = UNSET;
+  MOTOR_STATE.last_state_change = UNSET;
 }
 
 TEST_TEAR_DOWN(Controller) {}
@@ -30,14 +30,14 @@ TEST(Controller, setup_byDefault_callsMotorSwitchAndPinInit) {
 
 TEST(Controller, setup_byDefault_initializesMotorState) {
   setup();
-  TEST_ASSERT_EQUAL(0, MOTOR_STATE.last_check);
+  TEST_ASSERT_EQUAL(0, MOTOR_STATE.last_state_change);
   TEST_ASSERT_EQUAL(UP, MOTOR_STATE.direction);
 }
 
 TEST(Controller, setup_byDefault_setsLastCheckedToCurrentTimer) {
   timer_value_will_return(1, 75);
   setup();
-  TEST_ASSERT_EQUAL(75, MOTOR_STATE.last_check);
+  TEST_ASSERT_EQUAL(75, MOTOR_STATE.last_state_change);
 }
 
 TEST(Controller, setup_byDefault_callsStateBottom) {
@@ -46,9 +46,9 @@ TEST(Controller, setup_byDefault_callsStateBottom) {
 }
 
 TEST(Controller,
-     loop_whenDirectionDownAndExpiredLessThanDuration_doNotCallStateBottom) {
+     loop_whenDirectionDownAndElapsedTimeLessThanDuration_doNotCallStateBottom) {
   MOTOR_STATE.direction = DOWN;
-  MOTOR_STATE.last_check = 10;
+  MOTOR_STATE.last_state_change = 10;
   timer_value_will_return(1, 75);
 
   loop();
@@ -57,9 +57,9 @@ TEST(Controller,
 }
 
 TEST(Controller,
-     loop_whenDirectionDownAndExpiredGreaterThanDuration_callsStateBottom) {
+     loop_whenDirectionDownAndElapsedTimeGreaterThanDuration_callsStateBottom) {
   MOTOR_STATE.direction = DOWN;
-  MOTOR_STATE.last_check = 10;
+  MOTOR_STATE.last_state_change = 10;
 
   timer_value_will_return(1, MOTOR_DURATION + 11);
 
@@ -69,9 +69,9 @@ TEST(Controller,
 }
 
 TEST(Controller,
-     loop_whenDirectionIsUpAndExpiredGreaterThanDuration_callsStateSwitchOn) {
+     loop_whenDirectionIsUpAndElapsedTimeGreaterThanMotorDuration_callsStateSwitchOn) {
   MOTOR_STATE.direction = UP;
-  MOTOR_STATE.last_check = 7;
+  MOTOR_STATE.last_state_change = 7;
 
   timer_value_will_return(1, MOTOR_DURATION + 11);
 
@@ -82,9 +82,9 @@ TEST(Controller,
 
 TEST(
     Controller,
-    loop_whenDirectionIsUpAndExpiredLessThanDuration_stateSwitchOnIsNotCalled) {
+    loop_whenDirectionIsUpAndElapsedTimeLessThanDuration_stateSwitchOnIsNotCalled) {
   MOTOR_STATE.direction = UP;
-  MOTOR_STATE.last_check = 5;
+  MOTOR_STATE.last_state_change = 5;
   timer_value_will_return(1, MOTOR_DURATION);
 
   loop();
