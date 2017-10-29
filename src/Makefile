@@ -1,9 +1,9 @@
-ARDUINO_BASE=/Applications/Arduino.app/Contents/Java/hardware/arduino/avr
+ARDUINO_BASE=/home/clay/arduino-1.8.2/hardware/arduino/avr
 ARDUINO_CORE=$(ARDUINO_BASE)/cores/arduino
 ARDUINO_EIGHT_ANALOG_INPUTS=$(ARDUINO_BASE)/variants/eightanaloginputs
 
-CC=/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/avr-gcc
-CXX=/Applications/Arduino.app/Contents/Java/hardware/tools/avr/bin/avr-g++
+CC=avr-gcc
+CXX=avr-g++
 
 ARDUINO_CFLAGS=-Os -w -std=gnu11 -ffunction-sections -fdata-sections -MMD -fno-fat-lto-objects -mmcu=atmega328p -DF_CPU=16000000L -DARDUINO=10802 \
 	-DARDUINO_AVR_NANO -DARDUINO_ARCH_AVR  \

@@ -5,6 +5,7 @@
 
 unsigned long will_return[WILL_RETURN_MAX];
 int WILL_RETURN_IDX = 0;
+long random_expected_value = 0;
 
 void timer_value_will_return(int num_values, ...) {
   va_list valist;
@@ -29,4 +30,13 @@ unsigned long timer_value(void) {
 
 void timer_wait(unsigned int seconds) {
   mock_register_call_with(timer_wait, seconds);
+}
+
+void random_will_return(long expected_value) {
+  random_expected_value = expected_value;
+}
+
+long random(void) {
+  mock_register_call(random);
+  return random_expected_value;
 }

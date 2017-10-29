@@ -9,6 +9,8 @@ TEST_GROUP_RUNNER(Transition) {
                 stateBottom_byDefault_turnsOffDownMotorWaitsTurnsOnUpMotor);
   RUN_TEST_CASE(Transition,
                 stateBottom_byDefault_setsLastCheckedAfterTimerWait);
+  RUN_TEST_CASE(Transition,
+                stateBottom_byDefault_callsTimerWaitBetween3And120Seconds);
 
   // state_switch_on
   RUN_TEST_CASE(
@@ -21,4 +23,6 @@ TEST_GROUP_RUNNER(Transition) {
                 stateSwitchOn_byDefault_turnsUpMotorOffWaitsTurnsDownMotorOn);
   RUN_TEST_CASE(Transition,
                 stateSwitchOn_whenDurationSet_callsWaitBeforeGettingTime);
+  RUN_TEST_CASE(Transition,
+                stateSwitchOn_byDefault_callsTimerWaitBetween3And120Seconds);
 }

@@ -6,4 +6,6 @@
 
 void timer_value_will_return(int num_values, ...);
 
+void random_will_return(long expected_value);
+
 #endif
